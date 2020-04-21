@@ -1,0 +1,11 @@
+<%if flash[:error]%>
+<div class='alert alert-danger'><%=flash[:error]%></div>
+<%end%>
+<%if @project.errors.any? %>
+<div class='alert alert-danger'>
+<%@project.errors.full_messages.each do|msg|%>
+  <%=msg%>
+  <br>
+<%end%>
+</div>
+<%end%>

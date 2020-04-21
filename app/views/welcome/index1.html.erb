@@ -1,0 +1,53 @@
+
+
+<div class ="box">
+   <center>  <%=render 'layouts/head'%></center>
+   <%if user_signed_in?%>
+   <%if @role =='Project Manager'%>
+   <%= render 'layouts/nav' %>
+   <center>
+      <h2 class = "nam">Welcome
+         <%=current_user.name%>
+      </h2>
+      <br>
+   </center>
+   <%else @role != "Project Manager"%>
+   <%= render 'layouts/nav1' %>
+   <center>
+      <h2 class = "nam">Welcome
+         <%=current_user.name%>
+      </h2>
+      <br>
+   </center>
+
+   <%end%>
+   <div>
+      <center>
+         <img src="project-management.jpg"  style="width:1000px;height:500px;">
+      </center>
+   </div>
+   <ul class="bg-bubbles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li ></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+   </ul>
+</div>
+<%end%>
+<%=render 'layouts/footor'%>

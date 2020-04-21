@@ -1,0 +1,46 @@
+<%= tinymce %>
+<div>
+  
+<center>
+   <%=render 'layouts/head'%>
+   </center>
+  <%if @show.empty?%>
+<h1>
+   <center>NO PROJECTS ARE THERE</center>
+</h1>
+<%else%>
+<center>
+   <style>
+      table ,th,td
+      {border: 4px solid grey; padding:5px 5px 5px 5px; width:50%}
+   </style>
+   <table>
+      <thead>
+         <tr>
+            <th height="50">Name</th>
+            <th height="50">Requirement</th>
+            <th height="50"> Domain</th>
+            <th height="50"> Avatar</th>
+         </tr>
+      </thead>
+      <tbody>
+         <% @show.each do|project|%>
+         <tr>
+            <td>
+               <%=project.name %>
+            </td>
+            <td>
+               <%=project.requirements.html_safe %>
+            </td>
+            <td>
+               <%=project.domain%>
+            </td><td>
+          <%= image_tag project.avatar.url(:thumb)%>
+          </td>
+        <%end%>
+      </tbody>
+   </table>
+</center>
+<%= paginate @project %>
+<%end%>
+<%=render 'layouts/footor'%>

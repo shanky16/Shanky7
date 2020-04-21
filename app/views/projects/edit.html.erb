@@ -1,0 +1,70 @@
+<%= tinymce %>
+<div class="box">
+<%=render 'errors' ,project: @project %>
+<%=render 'layouts/head'%>
+
+<%= render 'layouts/nav' %>
+
+ <center>
+  <p></p><p></p>
+<h1>Edit Project Details</h1>
+<p></p><p></p>
+<%= form_for @project, :url=>{:action=>'update'} do |f| %>
+<div style="color:black;" >
+  <%= f.label :Name%>
+</div>
+<div style="color:black;width:20%">
+  <%= f.text_field :name %>
+</div>
+<div style="color:black;">
+<%= f.label :Requirements%>
+</div>
+
+<div style="color:black;">
+<%= f.text_area :requirements, :class => "tinymce" %>
+</div>
+<div style="color:black;width:20%">
+<%= f.label :Domain%>
+</div>
+<div style="color:black;width:20%">
+<%= f.text_field :domain%>
+</div>
+<div style="color:black;">
+ <%= f.label :avatar %>
+ <%= f.file_field :avatar ,:style=> "width:250px;" %>
+</div>
+
+<%= f.hidden_field :user_id, :value => current_user.id %>
+
+
+<div>
+
+<%= f.submit 'Update' ,:class => "btn btn-primary btn-lg btn-block" ,:style =>"width:10%;margin-top:30px;height:40px"%>
+</div>
+<ul class="bg-bubbles">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li ></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+
+</ul>
+</div>
+<%end%>
+</center>
+<%=render 'layouts/footor'%>

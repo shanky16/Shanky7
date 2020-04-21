@@ -1,0 +1,212 @@
+
+<%if current_user.role == "Project Manager"%>
+<div class="box" style="height:800px;">
+
+  <%=render 'layouts/head'%>
+
+<%= render 'layouts/nav' %>
+
+<form method='post' action ='<% assigns_path%>'  id="target" style="color:black;">
+
+   <center>
+
+         <h3>Select Project </h3>
+
+         <%= collection_select(:assign, :project_id, @project, :id, :name, {multiple: :false})%>
+</center>
+      <br>
+
+      <div ><center>
+        <fieldset>
+      <%=  "SELECT ANY TWO DEVELOPER" %><br>
+         <%= collection_select(:assign, :user_id, @developer, :id, :name, {include_blank: false, include_hidden: false}, {multiple: :true, class: 'dp_second'})%>
+    </fieldset></center>  </div>
+
+      <div><center><fieldset>
+      <%= "SELECT ANY TWO DESIGNER" %><br>
+         <%= collection_select(:assign, :user_id, @designer, :id, :name, {include_blank: false, include_hidden: false}, {multiple: :true, class: 'dp_third'})%>
+    </fieldset></center>  </div>
+
+      <div ><center><fieldset>
+
+         <%=  "SELECT ANY TWO TESTER" %><br>
+         <%= collection_select(:assign, :user_id, @tester, :id, :name,  {include_blank: false, include_hidden: false}, {multiple: :true, class: 'dp_first'})%>
+    </fieldset></center>  </div>
+
+ <center >
+      <input type='submit' value='submit' data-confirm="Are you sure?" class="btn btn-primary btn-lg btn-block" style="width:10%;margin-top:30px;height:40px">
+      </center>
+
+</form>
+<ul class="bg-bubbles">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li ></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+
+</ul>
+</div>
+
+<%=render 'layouts/footor'%>
+<%else%>
+<div class="box" style="height:auto;">
+
+  <%=render 'layouts/head'%>
+  <%=render 'layouts/nav1'%>
+<%if @assign1.present? %>
+
+  <center><h2>These are assigned projects</h2> <br> </center>
+  <center>
+<fieldset>
+        <form method='post' , action= "/status">
+
+         <% @assign1.each do |t| %>
+         <div class="form-group">
+            <div class="control-label col-sm-2">
+               <strong>Project Name :</strong>
+            </div>
+              <div class="col-sm-3">
+         <input type="text" value = "<%= Project.find(t.project_id).name %>" readonly class="form-control" />
+         </div><br>
+      <%=hidden_field_tag :assign, :project_id, :value => t.project_id%>
+         <fieldset>
+            <div class= "h">
+               <%= label_tag "Requirements:"%>
+               <%= Project.find(t.project_id).requirements.html_safe %>
+            </div>
+         </fieldset>
+         <div class="form-group">
+            <div class="control-label col-sm-2">
+               <strong>Domain :</strong>
+            </div>
+              <div class="col-sm-3">
+         <input type="text" value = "<%= Project.find(t.project_id).domain %>" readonly class="form-control"/>
+       </div><br>
+            <div class= "img">
+               <img id="myImg" src= "<%=Project.find( t.project_id).avatar.url(:thumb)%>" alt="Trolltunga, Norway" width="300" height="200">
+               <div id="myModal" class="modal">
+                  <span class="close" onclick="document.getElementById('myModal').style.display='none'">&times;</span>
+                  <img class="modal-content" id="img01">
+                  <div id="caption"></div>
+               </div>
+            </div><br>
+            <div class="form-group">
+               <div class="control-label col-sm-2">
+                  <strong> Status :</strong>
+               </div>
+               <div class="col-sm-3">
+
+            <% if t.status  == "Done" %>
+
+              <%= t.status %>
+            <% else %>
+            <%= label_tag @status, 'Completed' %>
+              <%= radio_button_tag :status,"Done"  %>
+              <%= label_tag @status, 'Pending' %>
+              <%=radio_button_tag :status, "Pending" %><br class="btn btn-primary btn-lg btn-block">
+              <%= submit_tag  "submit", :onclick => "alert('Status is Submitted')",:class => "btn btn-primary"%>
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
+            <% end %>
+          </br>
+</div>
+<br>
+</div>
+</div>
+</div>
+     <%end%>
+
+   </fieldset>
+   <div>
+   <%= paginate @assign1 %></div>
+ </center>
+
+<%else%>
+<center>
+<MARQUEE >
+  <h1>No projects are assigned yet<h1>
+    <%=link_to 'Logout', destroy_user_session_path, method: :delete%>
+</MARQUEE></center>
+
+<div><center>
+  <img src="project-management.jpg"  style="width:1000px;height:500px;">  </center>
+ </div>
+<%end%>
+<ul class="bg-bubbles">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li ></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li ></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+
+</ul>
+</div>
+<%=render 'layouts/footor'%>
+
+<%end%>
+
+<script type='text/javascript'>
+  $( "#target" ).submit(function( event ) {
+    if ($('.dp_first option:selected').length != 2){
+      event.preventDefault();
+      alert('Please choose exactly 2 Tester ...');
+    }
+  });
+</script>
+<script type='text/javascript'>
+  $( "#target" ).submit(function( event ) {
+    if ($('.dp_second option:selected').length != 2){
+      event.preventDefault();
+      alert('Please choose exactly 2 Devloper ...');
+    }
+  });
+</script>
+<script type='text/javascript'>
+  $( "#target" ).submit(function( event ) {
+    if ($('.dp_third option:selected').length != 2){
+      event.preventDefault();
+      alert('Please choose exactly 2 Designer ...');
+    }
+  });
+</script>
+<script>
+   var modal = document.getElementById('myModal');
+   var img = document.getElementById('myImg');
+   var modalImg = document.getElementById("img01");
+   var captionText = document.getElementById("caption");
+   img.onclick = function(){
+       modal.style.display = "block";
+       modalImg.src = this.src;
+       captionText.innerHTML = this.alt;
+   }
+</script>

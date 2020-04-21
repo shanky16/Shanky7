@@ -1,0 +1,78 @@
+<%= tinymce %>
+
+<div class="box" >
+   <center>
+     <%=render 'layouts/head'%>
+
+   </center>
+   <%= render 'layouts/nav' %>
+   <%if @project.empty?%>
+   <h1>
+      <center>NO TEAM IS ASSIGNED YET</center>
+   </h1>
+   <%else%>
+   <div >
+      <center>
+         <% @project.each do|project|%>
+         <div><%=label_tag 'Project Name:'%>
+            <%= label_tag project.name %>
+         </div>
+         <%if Assign.where(project_id:project).present?%>
+         <%=label_tag "Team:"%><br>
+         <% Assign.where(project_id:project).each do |t| %>
+         <%=label_tag User.find(t.user_id).role%>:
+         <%=User.find(t.user_id).name%><br>
+         Status:
+         <%Assign.connection.clear_query_cache%><%=label_tag t.status%><br>
+         <%end%>
+
+         <div>
+            <%=label_tag "Final Status:" %>
+             <% if project.final_status== "Done"%>
+             <%=project.final_status %>
+             <%else%>
+            <form method='post' , action= "/final_status", style="color:black;">
+            <%= label_tag @final_status, 'Completed' %>
+            <%= radio_button_tag :final_status,"Done"  %>
+            <%= label_tag @final_status, 'Incompleted' %>
+            <%= radio_button_tag :final_status, "Pending" %><br>
+            <%= hidden_field_tag :project_id, project.id %>
+            <%= submit_tag  "submit" ,data: { disable_with: "Please wait..."},:class => "btn btn-primary btn-lg btn-block" ,:style =>"width:20%;margin-top:30px;height:40px;"%>
+          </form>
+            <%end%>
+         </div>
+
+         <%else%>
+         <%=label_tag 'No Team is assigned by you'%>
+         <%end%>
+   </div>
+   <%end%>
+ </center>
+     <center>
+   <%= paginate @project %>
+   </center>
+   <ul class="bg-bubbles">
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li ></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+     <li></li>
+
+   </ul>
+</div>
+<%end%>
